@@ -1,0 +1,67 @@
+
+ origin | unique_carrier | dep_delay_avg
+--------+----------------+---------------
+    CMI |             DH |        9.6494
+    CMI |             EV |        9.6927
+    CMI |             MQ |        11.754
+    CMI |             OH |        5.3643
+    CMI |             PI |        4.5229
+    CMI |             TW |        4.1582
+    CMI |             US |        2.8827
+
+
+ origin | unique_carrier | dep_delay_avg
+--------+----------------+---------------
+    BWI |             AA |        7.6571
+    BWI |             CO |        7.1413
+    BWI |             DL |        8.8151
+    BWI |             EA |         9.172
+    BWI |             F9 |        4.9161
+    BWI |             NW |        8.3094
+    BWI |         PA (1) |        5.9429
+    BWI |             TW |        9.0849
+    BWI |             US |        8.5142
+    BWI |             YV |         7.676
+
+
+ origin | unique_carrier | dep_delay_avg
+--------+----------------+---------------
+    MIA |             9E |           0.5
+    MIA |             EV |        5.6696
+    MIA |         ML (1) |         7.632
+    MIA |             NW |        6.9902
+    MIA |         PA (1) |        4.8435
+    MIA |             PI |        9.0639
+    MIA |             TZ |         6.823
+    MIA |             UA |        8.2735
+    MIA |             US |        7.4273
+    MIA |             XE |        6.1034
+
+
+ origin | unique_carrier | dep_delay_avg
+--------+----------------+---------------
+    LAX |             AA |        8.4199
+    LAX |             F9 |        8.3621
+    LAX |             FL |        8.0823
+    LAX |         ML (1) |        7.1013
+    LAX |             MQ |        5.0697
+    LAX |             NW |        7.2525
+    LAX |             OO |        6.0953
+    LAX |             PS |        4.9739
+    LAX |             TZ |        7.4569
+    LAX |             US |        7.8037
+
+
+ origin | unique_carrier | dep_delay_avg
+--------+----------------+---------------
+    IAH |             AA |        7.2697
+    IAH |             DL |        8.2771
+    IAH |             HP |        8.0406
+    IAH |             NW |        6.1598
+    IAH |             OO |        7.9431
+    IAH |         PA (1) |        5.7343
+    IAH |             PI |        4.6433
+    IAH |             TW |        7.4534
+    IAH |             US |        7.0557
+    IAH |             WN |        6.2322
+

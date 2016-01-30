@@ -1,0 +1,62 @@
+
+ origin | dest | unique_carrier | arrival_delay_avg
+--------+------+----------------+-------------------
+    CMI |  ORD |             MQ |            15.739
+
+
+ origin | dest | unique_carrier | arrival_delay_avg
+--------+------+----------------+-------------------
+    IND |  CMH |             AA |              8.25
+    IND |  CMH |             CO |            4.3942
+    IND |  CMH |             DL |             12.63
+    IND |  CMH |             EA |            13.065
+    IND |  CMH |             HP |            7.9906
+    IND |  CMH |             NW |            7.6015
+    IND |  CMH |             US |            7.8386
+
+
+ origin | dest | unique_carrier | arrival_delay_avg
+--------+------+----------------+-------------------
+    DFW |  IAH |             AA |            12.148
+    DFW |  IAH |             CO |            10.001
+    DFW |  IAH |             DL |            10.204
+    DFW |  IAH |             EV |            10.692
+    DFW |  IAH |             MQ |            12.976
+    DFW |  IAH |             OO |            9.7365
+    DFW |  IAH |         PA (1) |            9.3333
+    DFW |  IAH |             UA |            8.8994
+    DFW |  IAH |             XE |            12.893
+
+
+ origin | dest | unique_carrier | arrival_delay_avg
+--------+------+----------------+-------------------
+    LAX |  SFO |             AA |            12.465
+    LAX |  SFO |             CO |            14.002
+    LAX |  SFO |             DL |            13.484
+    LAX |  SFO |             EV |            13.399
+    LAX |  SFO |             F9 |            6.9653
+    LAX |  SFO |             MQ |            10.933
+    LAX |  SFO |             NW |             12.79
+    LAX |  SFO |             PS |            5.8304
+    LAX |  SFO |             TZ |            6.2381
+    LAX |  SFO |             US |            10.822
+
+
+ origin | dest | unique_carrier | arrival_delay_avg
+--------+------+----------------+-------------------
+    JFK |  LAX |             AA |            15.045
+    JFK |  LAX |             DL |            16.631
+    JFK |  LAX |             HP |            14.865
+    JFK |  LAX |         PA (1) |            17.094
+    JFK |  LAX |             TW |            18.288
+    JFK |  LAX |             UA |            11.469
+
+
+ origin | dest | unique_carrier | arrival_delay_avg
+--------+------+----------------+-------------------
+    ATL |  PHX |             DL |            13.867
+    ATL |  PHX |             EA |            14.009
+    ATL |  PHX |             FL |             12.61
+    ATL |  PHX |             HP |            13.367
+    ATL |  PHX |             US |            12.687
+

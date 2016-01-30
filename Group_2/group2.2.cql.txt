@@ -1,0 +1,83 @@
+
+ origin | dest | dep_delay_avg
+--------+------+---------------
+    CMI |  ABI |             0
+    CMI |  ATL |        9.6927
+    CMI |  CVG |        6.3794
+    CMI |  DAY |        3.6273
+    CMI |  DFW |        9.5562
+    CMI |  ORD |        11.943
+    CMI |  PIA |        4.6324
+    CMI |  PIT |        2.1701
+    CMI |  STL |        4.0183
+
+
+ origin | dest | dep_delay_avg
+--------+------+---------------
+    BWI |  CHO |        4.8261
+    BWI |  DAB |        3.8378
+    BWI |  GSP |        5.4311
+    BWI |  IAD |        3.0871
+    BWI |  MDT |        4.9014
+    BWI |  MLB |        2.3842
+    BWI |  OAJ |          5.32
+    BWI |  SAV |             0
+    BWI |  SRQ |        4.2689
+    BWI |  UCA |        4.9399
+
+
+ origin | dest | dep_delay_avg
+--------+------+---------------
+    MIA |  BUF |             1
+    MIA |  GNV |         6.008
+    MIA |  HOU |        3.6411
+    MIA |  ISP |        4.4566
+    MIA |  MCI |        5.3605
+    MIA |  PSE |        4.9469
+    MIA |  SAN |        2.5137
+    MIA |  SHV |             0
+    MIA |  SLC |        4.0702
+    MIA |  TLH |        5.4429
+
+
+ origin | dest | dep_delay_avg
+--------+------+---------------
+    LAX |  BZN |             1
+    LAX |  DRO |             0
+    LAX |  IDA |             0
+    LAX |  LAX |             0
+    LAX |  MAF |             0
+    LAX |  PIH |             0
+    LAX |  PMD |             3
+    LAX |  RSW |             0
+    LAX |  SDF |             0
+    LAX |  VIS |        2.4805
+
+
+ origin | dest | dep_delay_avg
+--------+------+---------------
+    IAH |  AGS |        2.8315
+    IAH |  EFD |        3.9199
+    IAH |  HOU |        2.3019
+    IAH |  MDW |        5.9158
+    IAH |  MLI |             0
+    IAH |  MSN |             0
+    IAH |  MTJ |         5.635
+    IAH |  PIH |             4
+    IAH |  RNO |        5.5072
+    IAH |  VCT |        5.3176
+
+
+ origin | dest | dep_delay_avg
+--------+------+---------------
+    SFO |  BNA |        3.0649
+    SFO |  FAR |             0
+    SFO |  LGA |        1.2121
+    SFO |  MEM |        5.4396
+    SFO |  MSO |       0.58333
+    SFO |  OAK |        2.5486
+    SFO |  PIE |        2.7283
+    SFO |  PIH |             0
+    SFO |  SCK |             4
+    SFO |  SDF |             0
+
