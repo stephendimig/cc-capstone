@@ -1,0 +1,97 @@
+Moved: 'hdfs://sandbox.hortonworks.com:8020/user/root/output' to trash at: hdfs://sandbox.hortonworks.com:8020/user/root/.Trash/Current
+[1] "CMI -> ORD Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+3206     4278    CMI  ORD      MQ 2008-04-03      706     0
+3236     4373    CMI  ORD      MQ 2008-04-03      908     0
+3265     4374    CMI  ORD      MQ 2008-04-03      557     0
+3290     4401    CMI  ORD      MQ 2008-04-03      808     0
+[1] ""
+[1] "ORD -> LAX Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+3031      121    ORD  LAX      UA 2008-04-05     1219     0
+3375      607    ORD  LAX      AA 2008-04-05     1948     0
+3403      889    ORD  LAX      AA 2008-04-05     1815     0
+3435     1345    ORD  LAX      AA 2008-04-05     1404     0
+3463     1407    ORD  LAX      AA 2008-04-05     1213     0
+3369      557    ORD  LAX      AA 2008-04-05     1641     6
+3094      129    ORD  LAX      UA 2008-04-05     2102    12
+3153      943    ORD  LAX      UA 2008-04-05     1506    12
+3123      941    ORD  LAX      UA 2008-04-05     1712    19
+3064      127    ORD  LAX      UA 2008-04-05     1847    20
+3023      111    ORD  LAX      UA 2008-04-05     1208    38
+[1] ""
+Moved: 'hdfs://sandbox.hortonworks.com:8020/user/root/output' to trash at: hdfs://sandbox.hortonworks.com:8020/user/root/.Trash/Current
+[1] "JAX -> DFW Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+1545      845    JAX  DFW      AA 2008-09-09      722     1
+[1] ""
+[1] "DFW -> CRP Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+1493     3627    DFW  CRP      MQ 2008-09-11     1648     0
+1521     3701    DFW  CRP      MQ 2008-09-11     1310     8
+1438     3419    DFW  CRP      MQ 2008-09-11     1504     9
+[1] ""
+Moved: 'hdfs://sandbox.hortonworks.com:8020/user/root/output' to trash at: hdfs://sandbox.hortonworks.com:8020/user/root/.Trash/Current
+[1] "No flights found matching criteria X=SLC; Y=BFL; Z=LAX; DATE=2008-01-04"
+Moved: 'hdfs://sandbox.hortonworks.com:8020/user/root/output' to trash at: hdfs://sandbox.hortonworks.com:8020/user/root/.Trash/Current
+[1] "No flights found matching criteria X=LAX; Y=SFO; Z=PHX; DATE=2008-12-07"
+Moved: 'hdfs://sandbox.hortonworks.com:8020/user/root/output' to trash at: hdfs://sandbox.hortonworks.com:8020/user/root/.Trash/Current
+[1] "DFW -> ORD Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+5155     6441    DFW  ORD      OO 2008-10-06      920     0
+5232     1104    DFW  ORD      UA 2008-10-06      655     0
+5289     2268    DFW  ORD      AA 2008-10-06      920     0
+5320     2320    DFW  ORD      AA 2008-10-06      556     0
+5418     2328    DFW  ORD      AA 2008-10-06      812     0
+5542     2336    DFW  ORD      AA 2008-10-06     1003     0
+5604     2340    DFW  ORD      AA 2008-10-06     1047     0
+5665     2344    DFW  ORD      AA 2008-10-06     1148     0
+5356     2324    DFW  ORD      AA 2008-10-06      703     6
+[1] ""
+[1] "ORD -> DFW Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+5175      357    ORD  DFW      UA 2008-10-08     1658     0
+5204      725    ORD  DFW      UA 2008-10-08     2016     0
+5260       47    ORD  DFW      AA 2008-10-08     1919     0
+5389     2325    ORD  DFW      AA 2008-10-08     1240     0
+5451     2329    ORD  DFW      AA 2008-10-08     1332     0
+5636     2341    ORD  DFW      AA 2008-10-08     1650     0
+5692     2345    ORD  DFW      AA 2008-10-08     1754     0
+5748     2357    ORD  DFW      AA 2008-10-08     1945     0
+5776     2361    ORD  DFW      AA 2008-10-08     2100     0
+5482     2331    ORD  DFW      AA 2008-10-08     1429     2
+5138     5949    ORD  DFW      OO 2008-10-08     1529    11
+5513     2333    ORD  DFW      AA 2008-10-08     1520    17
+5721     2349    ORD  DFW      AA 2008-10-08     2024    94
+5575     2337    ORD  DFW      AA 2008-10-08     1909   184
+[1] ""
+Moved: 'hdfs://sandbox.hortonworks.com:8020/user/root/output' to trash at: hdfs://sandbox.hortonworks.com:8020/user/root/.Trash/Current
+[1] "LAX -> ORD Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+1898      944    LAX  ORD      UA 2008-01-01      700     1
+1831      110    LAX  ORD      UA 2008-01-01     1005     9
+1957       88    LAX  ORD      AA 2008-01-01      853    11
+1985      764    LAX  ORD      AA 2008-01-01      558    11
+1802      106    LAX  ORD      UA 2008-01-01      856    12
+2070     2276    LAX  ORD      AA 2008-01-01      631    12
+2032     1372    LAX  ORD      AA 2008-01-01     1106    70
+2055     1740    LAX  ORD      AA 2008-01-01      217   161
+[1] ""
+[1] "ORD -> JFK Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+2135      918    ORD  JFK      B6 2008-01-03     1853     0
+1743     5366    ORD  JFK      OH 2008-01-03     1736     2
+2133      908    ORD  JFK      B6 2008-01-03     1208     5
+2134      916    ORD  JFK      B6 2008-01-03     1603    10
+2103     2352    ORD  JFK      AA 2008-01-03     1708    18
+1927     4138    ORD  JFK      MQ 2008-01-03     1425    28
+1744     5466    ORD  JFK      OH 2008-01-03     1335   145
+[1] ""
