@@ -1,7 +1,7 @@
 ---
-title: "Data Mining the US Department of Transportation Statistics on Aviation"
+title: "Data Mining the US DOT Statistics on Aviation"
 author: "Stephen Dimig"
-date: "January 31, 2016"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: word_document
 ---
 
@@ -14,27 +14,9 @@ library(grid)
 ```
 
 # Introduction
-The goal of this paper is to analyze the transportation dataset from the US Bureau of Transportation Statistics (BTS) that is hosted as an Amazon EBS volume snapshot and answer a set of interesting questions about it.The dataset contains data and statistics from the US Department of Transportation on Aviation in CSV format. The dataset we are using does not extend beyond 2008, it contains flight data such as departure and arrival delays, flight times, etc. The set of questions that will be answered fall into three groups as outlined below.
+The goal of this paper is to analyze the transportation dataset from the US Bureau of Transportation Statistics (BTS) that is hosted as an Amazon EBS volume snapshot and answer a set of interesting questions about it.The dataset contains data and statistics on Aviation up to 2008 in CSV format. It contains flight data such as departure and arrival delays, flight times, etc.
 
 All code and full results can be found at https://github.com/stephendimig/cc-capstone .
-
-## Group 1 Questions
-1. Rank the top 10 most popular airports by numbers of flights to/from the airport.
-2. Rank the top 10 airlines by on-time arrival performance.
-3. Rank the days of the week by on-time arrival performance.
-
-## Group 2 Questions
-1. For each airport X, rank the top-10 carriers in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
-2. For each airport X, rank the top-10 airports in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
-3. For each source-destination pair X-Y, rank the top-10 carriers in decreasing order of on-time arrival performance at Y from X. See Task 1 Queries for specific queries.
-
-## Group 3 Questions
-1. Does the popularity distribution of airports follow a Zipf distribution? If not, what distribution does it follow?
-2. Tom wants to travel from airport X to airport Z. However, Tom also wants to stop at airport Y for some sightseeing on the way. More concretely, Tom has the following requirements (see Task 1 Queries for specific queries):
-    + The second leg of the journey (flight Y-Z) must depart two days after the first leg (flight X-Y). For example, if X-Y departs January 5, 2008, Y-Z must depart January 7, 2008.
-    + Tom wants his flights scheduled to depart airport X before 12:00 PM local time and to depart airport Y after 12:00 PM local time.
-    + Tom wants to arrive at each destination with as little delay as possible (Clarification 1/24/16: assume you know the actual delay of each flight).
-
 
 # Methods and Data
 ## System Installation and Setup
@@ -51,7 +33,7 @@ All work for this paper was performed on Amazon Web Services using a virtual mac
 | R              | 3.2               | R programming language     |
 | Cassandra      | 2-1.2.10-1        | NoSQL Database             |
 
-MapReduce is fantastic at parallelizing work done on large data sets, but due to it's nature it can be difficult to use for some smaller tasks. Rather than struggling to make MapReduce perform every task required here, several languages were used together to perform tha task.
+MapReduce is fantastic at parallellizing work done on large data sets, but due to it's nature it can be difficult to use for some smaller tasks. Rather than struggling to make MapReduce perform every task required here, several languages were used together to perform that task.
 
 
 | __Language__   | __Description__           |
@@ -62,40 +44,15 @@ MapReduce is fantastic at parallelizing work done on large data sets, but due to
 | Python         | Used to filter and process data |
 | cql            | SQL-like query language for Cassandra |
 
-R is a programming language and software environment for statistical computing. It is exceptional at dealing with tabular data like what was found in this set of problems, but does not scale and is performs poorly on large datasets. R was used to process data where the majority of the heavy lifting was already done using MapReduce (either with Java or Pig). The following R packages were used in analyzing this data.
-
-| __Package__    | __Description__            |
-| :-------------- | -------------------------- |
-| devtools       | Requuired to install rhdfs |
-| rhdfs          | Provides basic connectivity to HDFS |
-| dplyr          | Used for cleaning data     |
-| zipfR          | Used for zipf distributions |
-| fitdistrplus   | Used to find a distribution to it data |
-
+R is a programming language and software environment for statistical computing. It is exceptional at dealing with tabular data like what was found in this set of problems, but does not scale and is performs poorly on large datasets. R was used to process data where the majority of the heavy lifting was already done using MapReduce (either with Java or Pig). 
 
 ## Cleaning the Data
-The data was cleaned by reading it off the attached EBS data volume, processing it with R to filter out ony the required fields, generating a temporary file, and then moving the file to HDFS.
+The data was cleaned by reading it off the attached EBS data volume, processing it with R to filter out only the required fields, generating a temporary file, and then moving the file to HDFS.
 
 ```{r fig.width=2.5, fig.height=1.5,echo=FALSE}
 
 img <- readJPEG("CleanData.jpg")
  grid.raster(img)
-```
-
-The main R code that cleans the data looks like this.
-
-```{r eval=FALSE}
-# Unzip and read each file from the EBS volume
-df <- read.csv(unz(zipfile, csvfile), stringsAsFactors=FALSE)
-            
-# Explicitly convert the date.
-df$FlightDate <- as.Date(df$FlightDate)
-            
-# Select only certain rows required for the capstone.
-my_df <- select(df, FlightDate, FlightNum, Origin, Dest, UniqueCarrier, Carrier, ArrTime, ArrDelay, ArrDelayMinutes, DepTime, DepDelay, DepDelayMinutes, DayOfWeek)
-
-# Write cleaned file, put it in HDFS, and remove local copy.
-write.csv(my_df, file=txtfile, quote=FALSE, col.names=FALSE)
 ```
 
 ## Group 1 Problems
@@ -108,16 +65,12 @@ grid.raster(img)
 ```
 
 ## Group 2 Problems
-The Group 2 Problems were the most complex as far as integration goes. I could not get the Cassandra/Pig interface to work so instead, I wrote a python language filter for each problem that took the output from the Pig script and created all of the cql commands that were requried to load that data into Cassandra. The cql file was then run through cqlsh.
+The Group 2 Problems were the most complex as far as integration goes. I could not get the Cassandra/Pig interface to work so instead, I wrote a python language filter for each problem that took the output from the Pig script and created all of the cql commands that were required to load that data into Cassandra. The cql file was then run through cqlsh.
 
 ```{r fig.width=2.5, fig.height=1.5,echo=FALSE}
-
 img <- readJPEG("Group2_Problems.jpg")
 grid.raster(img)
 ```
-
-The pyhon scripts basically apply a regular expression to a line in the output file and then generate a corresponding cql statement.
-
 
 ## Group 3 Problems
 The Group 3 problems required more analysis with no database interaction. This set of problems was solved with R directly reading the output of the Pig script from HDFS.
@@ -128,13 +81,117 @@ img <- readJPEG("Group3_Problems.jpg")
 grid.raster(img)
 ```
 
-Pig provides a higher level SQL-like syntax that is traslated into MapReduce code. The Pig scripts perform the more computaionally expensive work in this process.
-
 # Results
-All code and full results can be found at https://github.com/stephendimig/cc-capstone .
-
 ## Group 1 Questions
-### Rank the top 10 most popular airports by numbers of flights to/from the airport.
+### 1.1 - Rank the top 10 most popular airports by numbers of flights to/from the airport.
+
+Here are the top 3 airports by total flights. See Appendix A.1.1 for the full top 10.
+
+| __Airport__ | __Description__ |__Flights__ | 
+| :----------- | ----------- |----------: |
+| ORD | Chicago O'Hare International | 12449354 |
+| ATL | Hartsfield Jackson Atlanta International | 11540422 | 
+| DFW | Dallas Fort Worth International | 10799303 |
+
+### 1.2 - Rank the top 10 airlines by on-time arrival performance.
+
+Here are the top 3 carriers by average arrival delay. See A.1.2 for the full top 10 list.
+
+| __Carrier__ |  __Description__ | __Avg Delay__ |
+| :----------- |  ----------- | ----------: |
+| HA           | Hawaiian Airlines, Inc. | 3.9542668   | 
+| AQ           | 9 Air Co Ltd | 4.9505897   | 
+| PS           | Ukraine International Airlines | 5.627902    |
+
+
+### 1.3 - Rank the days of the week by on-time arrival performance.
+
+Here are the top 3 days of the week by average arrival delay. See A.1.3 for the full top 10 list.
+
+| __Day__      | __Avg Delay__ |
+| :----------- | ----------: |
+| FRI          | 9.265108 |
+| MON          | 10.237862 |
+| SUN          | 10.864509 |
+
+
+## Group 2 Questions
+Note that Cassandra does not output the queries in the same order that the INSERT operation was done. I included both the HDFS and Cassandra output for the queries to show they were in sorted order.
+
+### 2.1 - For each airport X, rank the top-10 carriers in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
+```{r eval=FALSE}
+ origin | unique_carrier | dep_delay_avg
+--------+----------------+---------------
+    CMI |             US |        2.8827
+    CMI |             TW |        4.1582
+    CMI |             PI |        4.5229
+```
+
+Top 3 carriers for the CMI airport. See Appendix A.2.1 for all queries.
+
+### 2.2 - For each airport X, rank the top-10 airports in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
+```{r eval=FALSE}
+ origin | dest | dep_delay_avg
+--------+------+---------------
+    CMI |  ABI |             0
+    CMI |  PIT |        2.1701
+    CMI |  DAY |        3.6273
+```
+
+Top 3 destinations from CMI. See Appendix A.2.2 for all queries.
+
+### 2.3 - For each source-destination pair X-Y, rank the top-10 carriers in decreasing order of on-time arrival performance at Y from X. See Task 1 Queries for specific queries.
+
+```{r eval=FALSE}
+ origin | dest | unique_carrier | arrival_delay_avg
+--------+------+----------------+-------------------
+    ATL |  PHX |             FL |             12.61
+    ATL |  PHX |             US |            12.687 
+    ATL |  PHX |             HP |            13.367
+```
+
+Top 3 carriers from ATL to Phoenix. See Appendix A.2.3 for all queries.
+
+## Group 3 Questions
+### 3.1 - Does the popularity distribution of airports follow a Zipf distribution? If not, what distribution does it follow?
+Zipf distributions are used in linguistics. Zipf's law states that given some corpus of natural language utterances, the frequency of any word is inversely proportional to its rank in the frequency table. As applied to airports in our problem, this means that the highest ranked airport should have roughly double the nunmber of flights as the second rated. The second rated should have double the third and so on. Our data when the number of flights looks very much like a zipf distribution. There is enough doubt about that bulge in the middle though (a typical zipf has an almost 90 degree elbow) to warrant some analysis.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Read data and tidy up.
+df <- read.table("top.txt", stringsAsFactors=FALSE)
+names(df) <- c("origin", "flights")
+mydf <- data.frame(1:351, df$flights)
+names(mydf) <- c("rank", "flights")
+mydf <- mydf[1:100, ]
+```
+
+Analysis with the zipfR package shows our data is not a zipf distribution. So what distribution does our data follow? In our case, the data seem to fit a Weibull distribution almost perfectly.
+
+See Appendix A.3.1 for a full analysis.
+
+### 3.2 - Tom's Unusual Flight
+``` {r eval = FALSE}
+[1] "JAX -> DFW Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+1545      845    JAX  DFW      AA 2008-09-09      722     1
+[1] ""
+[1] "DFW -> CRP Flights"
+[1] "==================="
+     flightno origin dest carrier       date dep_time delay
+1493     3627    DFW  CRP      MQ 2008-09-11     1648     0
+1521     3701    DFW  CRP      MQ 2008-09-11     1310     8
+1438     3419    DFW  CRP      MQ 2008-09-11     1504     9
+
+```
+
+Tom's flight options from JAX->DFW->CRP on 9/09/2008. See Appendix A.3.2 for all queries.
+
+# Discussion
+I like the results in the data but I think I might have not cleaned it properly. For example, I believe that flight cancellations should be removed rater than replacing the delay values with zeroes which skews the data for carriers with a smaller number of flights. I struggled at the beginning of this project due to some technical difficulties with the ami image I was using. I figured that out though and had a lot of fun. I was wanting to do something  similar to this in the Data Science specialization from Johns Hopkins since R is so slow with large data sets. This proves to me you can extract the majority of the data using Hadoop and do the final analysis in R in a powerful way.
+
+# Appendix
+## A.1.1  Rank the top 10 most popular airports by numbers of flights to/from the airport.
 
 | __Airport__ | __Description__ |__Flights__ | 
 | :----------- | ----------- |----------:
@@ -149,7 +206,7 @@ All code and full results can be found at https://github.com/stephendimig/cc-cap
 | MSP | Minneapolis-St Paul International | 5199213  | 
 | SFO | San Francisco International | 5171023 | 
 
-### Rank the top 10 airlines by on-time arrival performance.
+## A.1.2 Rank the top 10 airlines by on-time arrival performance.
 
 | __Carrier__ |  __Description__ | __Avg Delay__ |
 | :----------- |  ----------- | ----------: |
@@ -160,11 +217,11 @@ All code and full results can be found at https://github.com/stephendimig/cc-cap
 | WN           | Southwest Airlines Co. | 9.025299    | 
 | F9           | Frontier Airlines, Inc. | 9.871182    | 
 | PA           | M/S Airblue (PVT) Ltd | 10.189628   | 
-| US	       | Piedmont Airlines, Inc | 10.285916   | 
+| US           | Piedmont Airlines, Inc | 10.285916   | 
 | NW           | Northwest Airlines, Inc. | 10.332496   | 
 | EA           | Operador Aereo Andalus S.A | 10.360811   | 
 
-### Rank the days of the week by on-time arrival performance.
+## A.1.3 Rank the days of the week by on-time arrival performance.
 
 | __Day__      | __Avg Delay__ |
 | :----------- | ----------: |
@@ -176,64 +233,7 @@ All code and full results can be found at https://github.com/stephendimig/cc-cap
 | WED          | 12.689463 |
 | THU          | 13.256688 |
 
-## Group 2 Questions
-Not that Cassandra does not output the queries in the same order that the INSERT operation was done. I included both the HDFS and Cassandra output for the queries to show they were in sorted order.
-
-### For each airport X, rank the top-10 carriers in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
-
-See Appendix A.1.
-
-### For each airport X, rank the top-10 airports in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
-
-See Appendix A.2.
-
-### For each source-destination pair X-Y, rank the top-10 carriers in decreasing order of on-time arrival performance at Y from X. See Task 1 Queries for specific queries.
-
-See Appendix A.3.
-
-## Group 3 Questions
-### Does the popularity distribution of airports follow a Zipf distribution? If not, what distribution does it follow?
-Zipf distributions are used in linguistics. Zipf's law states that given some corpus of natural language utterances, the frequency of any word is inversely proportional to its rank in the frequency table. As applied to airports in our problem, this means that the highest ranked airport should have roughly double the nunmber of flights as the second rated. The second rated should have double the third and so on. Our data when the number of flights looks very much like a zipf distribution. There is enough doubt about that bulge in the middle though (a typical zipf has an almost 90 degree elbow) to warrant some analysis.
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-# Read data and tidy up.
-df <- read.table("top.txt", stringsAsFactors=FALSE)
-names(df) <- c("origin", "flights")
-mydf <- data.frame(1:351, df$flights)
-names(mydf) <- c("rank", "flights")
-mydf <- mydf[1:100, ]
-```
-```{r fig.width=3.5, fig.height=3.5,echo=FALSE}
-qplot(x=rank, y=flights, data=mydf, geom="bar", stat="identity")
-```
-
-The zipfR R package allows you to compare your data against what a theoretical zipf distribution would look like if it had the same kind of bounds. When you run our data against the theoretical zipf, you see the problem that the most popular airports are not quie popular enough for a zipf.
-
-```{r fig.width=3.5, fig.height=3.5,echo=FALSE}
-# Use the zipfR package to show it is not a zipf distribution.
-mydf.spc <- spc(Vm=mydf$flights, m=mydf$rank)
-zm <- lnre("zm",mydf.spc)
-zm.spc <- lnre.spc(zm,N(mydf.spc))
-plot(mydf.spc, zm.spc)
-```
-
-So what distribution does our data follow? The fitdistrplus R packages allows you to run various diagnostics against your data to determine which distribution it follows. It is a kind of trial and error approach, but the tools are nice enough that you can find a distribution. In our case, the data seem to fit a Weibull distribution almost perfectlly.
-
-```{r fig.width=5.5, fig.height=4.5,echo=FALSE, message=FALSE, warning=FALSE}
-# Use the fitdistrplus to show it is a weibull distribution.
-f1 <- fitdist(df$flights, "weibull")
-plotdist(df$flights,"weibull",para=list(shape=f1$estimate[1],scale=f1$estimate[2]))
-```
-
-### Tom's Unusual Flight
-See Appendix A.3.
-
-# Discussion
-I like the results in the data but I think I might have not cleaned it properlly. For example, I beleive that flight cancellations should be removed rater than replacing the delay values with zeroes which skews the data for carriers with a smaller number of flights. I struggled at the begining of this project due to some technical difficulties with the ami image I was using. I figured that out though and had a lot of fun. I was wanting to do something  similar to this in the Data Science specialization from Johns Hopkins since R is so slow with large data sets. This proves to me you can extract the majority of the data using Hadoop and do the final analysis in R in a powerful way.
-
-
-# Appendix
-## A.1 For each airport X, rank the top-10 carriers in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
+## A.2.1 For each airport X, rank the top-10 carriers in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
 ```{r eval=FALSE}
 HDFS:
     
@@ -358,7 +358,7 @@ CASSANDRA:
     IAH |             WN |        6.2322
 ```
 
-## A.2 For each airport X, rank the top-10 airports in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
+## A.2.2 For each airport X, rank the top-10 airports in decreasing order of on-time departure performance from X. See Task 1 Queries for specific queries.
 
 ```{r eval=FALSE}
 
@@ -514,7 +514,7 @@ CASSANDRA:
     SFO |  SDF |             0
 ```
 
-## A.3 For each source-destination pair X-Y, rank the top-10 carriers in decreasing order of on-time arrival performance at Y from X. See Task 1 Queries for specific queries.
+## A.2.3 For each source-destination pair X-Y, rank the top-10 carriers in decreasing order of on-time arrival performance at Y from X. See Task 1 Queries for specific queries.
 
 ```{r eval=FALSE}
 
@@ -629,7 +629,40 @@ CASSANDRA:
     ATL |  PHX |             US |            12.687
 ```
 
-## A.4 Tom's Unusual Flight
+## A.3.1 Does the popularity distribution of airports follow a Zipf distribution? If not, what distribution does it follow?
+Zipf distributions are used in linguistics. Zipf's law states that given some corpus of natural language utterances, the frequency of any word is inversely proportional to its rank in the frequency table. As applied to airports in our problem, this means that the highest ranked airport should have roughly double the nunmber of flights as the second rated. The second rated should have double the third and so on. Our data when the number of flights looks very much like a zipf distribution. There is enough doubt about that bulge in the middle though (a typical zipf has an almost 90 degree elbow) to warrant some analysis.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Read data and tidy up.
+df <- read.table("top.txt", stringsAsFactors=FALSE)
+names(df) <- c("origin", "flights")
+mydf <- data.frame(1:351, df$flights)
+names(mydf) <- c("rank", "flights")
+mydf <- mydf[1:100, ]
+```
+```{r fig.width=3.5, fig.height=3.5,echo=FALSE}
+qplot(x=rank, y=flights, data=mydf, geom="bar", stat="identity")
+```
+
+The zipfR R package allows you to compare your data against what a theoretical zipf distribution would look like if it had the same kind of bounds. When you run our data against the theoretical zipf, you see the problem that the most popular airports are not quite popular enough for a zipf.
+
+```{r fig.width=3.5, fig.height=3.5,echo=FALSE}
+# Use the zipfR package to show it is not a zipf distribution.
+mydf.spc <- spc(Vm=mydf$flights, m=mydf$rank)
+zm <- lnre("zm",mydf.spc)
+zm.spc <- lnre.spc(zm,N(mydf.spc))
+plot(mydf.spc, zm.spc)
+```
+
+So what distribution does our data follow? The fitdistrplus R packages allows you to run various diagnostics against your data to determine which distribution it follows. It is a kind of trial and error approach, but the tools are nice enough that you can find a distribution. In our case, the data seem to fit a Weibull distribution almost perfectly.
+
+```{r fig.width=5.5, fig.height=4.5,echo=FALSE, message=FALSE, warning=FALSE}
+# Use the fitdistrplus to show it is a weibull distribution.
+f1 <- fitdist(df$flights, "weibull")
+plotdist(df$flights,"weibull",para=list(shape=f1$estimate[1],scale=f1$estimate[2]))
+```
+
+## A.3.2 Tom's Unusual Flight
 
 ```{r eval=FALSE}
 Moved: 'hdfs://sandbox.hortonworks.com:8020/user/root/output' to trash at: hdfs://sandbox.hortonworks.com:8020/user/root/.Trash/Current
